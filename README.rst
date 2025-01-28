@@ -24,4 +24,9 @@ Conventions
 + Readme and document file format: ReStructuredText (rst files)
 + Makefile: tab as indentations
 
+List of Directories
+===================
++ ch03 - Describing Syntax and Semantics
++ ch04 - Lexical and Syntax Analysis
+
 Copyright (C) 2020-2025 Xingang (Ian) Fang
