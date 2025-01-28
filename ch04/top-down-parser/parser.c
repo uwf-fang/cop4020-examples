@@ -1,5 +1,22 @@
-/* parser.c - a recursive descent parser for simple
- arithmetic expressions */
+/*
+  parser.c - a recursive descent parser for simple arithmetic expressions
+
+  identifier: a sequence of letters and digits, starting with a letter
+  integer literal (number): a sequence of digits
+  operator: +, -, *, /
+  parentheses: (, )
+
+  Grammar (EBNF):
+    expr = term, { ("+" | "-"), term } ;
+    term = factor, { ("*" | "/"), factor } ;
+    factor = identifier | integer | "(" expr ")" ;
+    identifier = letter, { letter | digit } ;
+    integer = digit, { digit } ;
+    letter = "A" | "B" | "C" | ... | "Z" | "a" | "b" | "c" | ... | "z" ;
+    digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>

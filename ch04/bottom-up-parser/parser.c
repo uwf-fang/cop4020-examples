@@ -1,4 +1,16 @@
-/* lr_parser.c - an LR parser for arithmetic expressions */
+/*
+  lr_parser.c - an LR parser for arithmetic expressions
+
+  identifier can only be "i"
+  operator: +, *
+
+  Grammar (EBNF):
+    Expression = Term | Expression "+" Term ;
+    Term       = Factor | Term "*" Factor ;
+    Factor     = Identifier | "(" Expression ")" ;
+    Identifier = "i" ;
+
+  */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

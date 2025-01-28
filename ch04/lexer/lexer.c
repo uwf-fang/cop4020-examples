@@ -1,5 +1,14 @@
-/* front.c - a lexical analyzer system for simple
- arithmetic expressions */
+/*
+  front.c - a lexical analyzer system for simple arithmetic expressions
+
+  it recognizes the following tokens:
+    1. integers: a sequence of digits
+    2. identifiers: a sequence of letters and digits, starting with a letter
+    3. assignment operators
+    4. arithmetic operators: +, -, *, /
+    5. parentheses: (, )
+
+*/
 #include <stdio.h>
 #include <ctype.h>
 
