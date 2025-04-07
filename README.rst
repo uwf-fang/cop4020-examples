@@ -26,7 +26,9 @@ Conventions
 
 List of Directories
 ===================
-+ ch03 - Describing Syntax and Semantics
 + ch04 - Lexical and Syntax Analysis
++ ch13 - Concurrent Programming
++ ch14 - Exception and Event Handling
++ ch16 - Logic Programming
 
 Copyright (C) 2020-2025 Xingang (Ian) Fang
