@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Interactive Event-Driven Form</title>
+    <script defer src="script.js"></script>
+    <style>
+        /* Simple styles for visibility */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        #submitBtn:hover {
+            background-color: lightblue;
+        }
+
+        #responseMessage {
+            transition: all 0.5s ease-in-out;
+        }
+
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .fade {
+            opacity: 0.2;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Contact Form</h1>
+
+    <form id="contactForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
+        <small id="nameCount">0 characters</small>
+        <br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+        <small id="emailFeedback"></small>
+        <br><br>
+
+        <button type="submit" id="submitBtn">Submit</button>
+        <button type="button" id="clearBtn">Clear Form</button>
+    </form>
+
+    <p id="responseMessage"></p>
+
+</body>
+</html>
