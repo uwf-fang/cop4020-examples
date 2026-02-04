@@ -3,6 +3,9 @@
 
   This version reads input from standard input (stdin) rather than a file.
 
+  Run "gcc -o parser_stdin parser_stdin.c" to compile.
+  Run "./parser_stdin < front.in" to provide input from a file.
+
   identifier: a sequence of letters and digits, starting with a letter
   integer literal (number): a sequence of digits
   operator: +, -, *, /
@@ -40,6 +43,7 @@ void getNonBlank();
 int lex();
 int lookup(char ch);
 void error(char *message);
+const char* getTokenName(int token);
 
 /* Parser function declarations */
 void expr();
@@ -84,6 +88,24 @@ int main() {
     printf("\nParsing completed successfully.\n");
 
     return 0;
+}
+
+/*****************************************************/
+/* getTokenName - returns a string representation of the token */
+const char* getTokenName(int token) {
+    switch(token) {
+        case INT_LIT: return "INT_LIT";
+        case IDENT: return "IDENT";
+        case ASSIGN_OP: return "ASSIGN_OP";
+        case ADD_OP: return "ADD_OP";
+        case SUB_OP: return "SUB_OP";
+        case MULT_OP: return "MULT_OP";
+        case DIV_OP: return "DIV_OP";
+        case LEFT_PAREN: return "LEFT_PAREN";
+        case RIGHT_PAREN: return "RIGHT_PAREN";
+        case EOF: return "EOF";
+        default: return "UNKNOWN";
+    }
 }
 
 /*****************************************************/
@@ -203,8 +225,8 @@ int lex() {
             break;
     }
 
-    printf("Next token is: %d, Next lexeme is %s\n",
-        nextToken, lexeme);
+    printf("Next token is: %s, Next lexeme is %s\n",
+        getTokenName(nextToken), lexeme);
     return nextToken;
 }
 

@@ -3,6 +3,9 @@
 
   Reads input from a file: front.in
 
+  Run "gcc -o parser parser.c" to compile.
+  Run "./parser" to execute.
+
   identifier: a sequence of letters and digits, starting with a letter
   integer literal (number): a sequence of digits
   operator: +, -, *, /
