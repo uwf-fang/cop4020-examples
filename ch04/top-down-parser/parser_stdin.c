@@ -1,7 +1,7 @@
 /*
-  parser.c - a recursive descent parser for simple arithmetic expressions
+  parser_stdin.c - a recursive descent parser for simple arithmetic expressions
 
-  Reads input from a file: front.in
+  This version reads input from standard input (stdin) rather than a file.
 
   identifier: a sequence of letters and digits, starting with a letter
   integer literal (number): a sequence of digits
@@ -65,11 +65,8 @@ void factor();
 /******************************************************/
 /* main driver */
 int main() {
-    /* Open the input data file and process its contents */
-    if ((in_fp = fopen("front.in", "r")) == NULL) {
-        printf("ERROR - cannot open front.in \n");
-        return 1;
-    }
+    /* Read from standard input */
+    in_fp = stdin;
 
     /* Get the first character of input */
     getChar();
@@ -86,7 +83,6 @@ int main() {
 
     printf("\nParsing completed successfully.\n");
 
-    fclose(in_fp);
     return 0;
 }
 
