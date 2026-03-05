@@ -5,83 +5,97 @@
     - use `typedef` to hide struct declaration
 - Private -> in cpp file
 
-## **Option 2: Struct with function pointer**
+## **Option 2: Struct with function pointer (encapsulated)**
 
 - Header file
 
 ```c
-#include <stdio.h>
-#include <stdlib.h>
+#ifndef SHAPE_H
+#define SHAPE_H
 
-// Forward declaration of the struct
+// Opaque type: callers cannot see fields
 typedef struct Shape Shape;
 
-// Define the "Interface" / Behavior
-struct Shape {
-    char* name;
-    int width;
-    int height;
+// Public API
+Shape* create_shape(const char* name, int w, int h);
+void destroy_shape(Shape* self);
+void shape_display(const Shape* self);
 
-    // Function pointer: This acts as our "Method"
-    void (*display)(Shape* self);
-};
+#endif
 
 ```
 
 - C file
 
 ```c
-void display_shape(Shape* self) {
+#include "shape.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Shape {
+    const char* name;
+    int width;
+    int height;
+
+    // Internal method pointer (private to this .c file)
+    void (*display)(const Shape* self);
+};
+
+static void display_shape_impl(const Shape* self) {
+    if (!self) {
+        return;
+    }
     printf("Shape: %s | Dimensions: %dx%d\n", self->name, self->width, self->height);
 }
 
-// A "Constructor" to initialize the object
-Shape* create_shape(char* name, int w, int h) {
-    Shape* new_shape = (Shape*)malloc(sizeof(Shape));
+Shape* create_shape(const char* name, int w, int h) {
+    Shape* new_shape = malloc(sizeof(*new_shape));
+    if (!new_shape) {
+        return NULL;
+    }
+
     new_shape->name = name;
     new_shape->width = w;
     new_shape->height = h;
-
-    // Linking the function pointer to the implementation
-    new_shape->display = display_shape;
+    new_shape->display = display_shape_impl;
 
     return new_shape;
 }
 
-int main() {
-    // Instantiate "Objects"
-    Shape* rect = create_shape("Rectangle", 10, 20);
-    Shape* circle = create_shape("Circle", 5, 5);
+void shape_display(const Shape* self) {
+    if (self && self->display) {
+        self->display(self);
+    }
+}
 
-    // Call "Methods"
-    rect->display(rect);
-    circle->display(circle);
-
-    // Clean up (Destructor logic)
-    free(rect);
-    free(circle);
-
-    return 0;
+void destroy_shape(Shape* self) {
+    free(self);
 }
 
 ```
 
----
+- Usage
 
-### Key OOP Principles Applied:
+```c
+#include <stdio.h>
+#include "shape.h"
 
-* **Encapsulation:** We grouped data (`width`, `height`) and logic (`display`) together.
-* **Abstraction:** The user of `Shape` doesn't need to know how `display` is implemented; they just call the pointer.
-* **Polymorphism (Advanced):** You can achieve polymorphism by creating different functions for different shapes and assigning them to the `display` pointer at runtime.
+int main() {
+    Shape* rect = create_shape("Rectangle", 10, 20);
+    Shape* circle = create_shape("Circle", 5, 5);
 
-### Summary Table
+    if (!rect || !circle) {
+        destroy_shape(rect);
+        destroy_shape(circle);
+        return 1;
+    }
 
-| OOP Concept | C Implementation |
-| --- | --- |
-| **Class** | `struct` |
-| **Object** | Instance of the `struct` (usually heap-allocated) |
-| **Method** | Function pointer within the `struct` |
-| **This / Self** | The first argument of the function (`Shape* self`) |
-| **Constructor** | A function that `malloc`s and initializes the `struct` |
+    shape_display(rect);
+    shape_display(circle);
 
-Would you like me to show you how to implement **Inheritance** in C using struct nesting?
+    destroy_shape(rect);
+    destroy_shape(circle);
+
+    return 0;
+}
+```
