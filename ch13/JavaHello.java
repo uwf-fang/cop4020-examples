@@ -43,6 +43,8 @@ public class JavaHello {
         // Start all threads
         for (int i = 0; i < threadCount; i++) {
             final int threadRank = i;  // Need final for lambda
+            // Send a lambda function to construct a new thread
+            // Can also send an object that implements the Runnable interface
             threads[i] = new Thread(() -> {
                 System.out.println("Hello from thread " + threadRank + " of " + threadCount);
             });
